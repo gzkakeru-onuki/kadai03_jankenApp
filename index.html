@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>ECサイトメイン</title>
+
+    <style>
+        /* 画像リストのスタイル */
+        .item-list {
+            display: inline-block;
+            margin: 10px;
+            width: 100px;
+            /* 画像の幅を指定 */
+            height: 100px;
+            /* 画像の高さを指定 */
+            object-fit: cover;
+            /* 画像をコンテナにフィットさせる */
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="header-logo">
+            <h1><a href="">Nukizon.co.jp</a></h1>
+        </div>
+        <input type="text" class="search" placeholder="検索:Nukizon.co.jp"></input>
+        <button class="search-btn">Search</button>
+        <div class="header-list">
+            
+            <ul>
+                <li class="header-item"><a id="food" href="#">食品</a></li>
+                <li class="header-item"><a id="every" href="#">日常品</a></li>
+                <li class="header-item"><a id="alcol" href="#">ビール/ワイン</a></li>
+                <li class="header-item"><a href="login.html">サインアウト</a></li>
+                <li class="header-item"><a href="cart.html"><img id="cart" src="images/cart.png" alt="カート"></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="item-container"></div> <!-- 商品一覧を表示するコンテナ -->
+
+    <script>
+        let countPrice;
+        let clickCount = Number(0);
+        $(document).ready(function () {
+            let loginuser = localStorage.getItem('loginuser');
+            if (loginuser) {
+                $(".header-logo").append('<h2 class="welcome-message">' + 'ようこそ、' + loginuser + 'さん</h2>');
+            } else {
+                alert("ログイン情報がありません");
+            }
+        });
+
+
+
+        const itemData1 = [
+            { name: "カレー", image: "images/curry.png", price: "1000" },
+            { name: "エビフライ", image: "images/ebifurai.png", price: "1500" },
+            { name: "骨つきにく", image: "images/meat.png", price: "3000" },
+            { name: "パスタ", image: "images/pasta.png", price: "1500" },
+            { name: "カレー", image: "images/curry.png", price: "1000" },
+            { name: "エビフライ", image: "images/ebifurai.png", price: "1500" },
+            { name: "骨つきにく", image: "images/meat.png", price: "3000" },
+            { name: "パスタ", image: "images/pasta.png", price: "1500" },
+            { name: "カレー", image: "images/curry.png", price: "1000" },
+            { name: "エビフライ", image: "images/ebifurai.png", price: "1500" },
+            { name: "骨つきにく", image: "images/meat.png", price: "3000" },
+            { name: "パスタ", image: "images/pasta.png", price: "1500" },
+            { name: "ラーメン", image: "images/ramen.png", price: "1000" }
+
+        ];
+
+        $("#food").on("click", function () {
+            $("#item-container").empty(); // コンテナをクリアする
+
+            itemData1.forEach((item, index) => {
+                const itemImage = $("<img>").attr("src", item.image).addClass("item-list").attr("data-index", index).data("price", Number(item.price));
+
+                const itemName = $("<p>").text(item.name).attr("data-name",item.name).addClass("item-name");
+                const itemPrice = $("<p>").text(item.price + "円").addClass("item-price");
+                const clickCountDisplay = $("<p>").text("商品個数: 0").addClass("click-count");
+                const itemDiv = $("<div>").append(itemImage, itemName, itemPrice, clickCountDisplay).addClass("items");
+                $("#item-container").append(itemDiv);
+            });
+
+            let Items = [];
+
+            $(".item-list").on("click", function () {
+                let totalprice = parseInt(localStorage.getItem('totalprice')) || 0;
+                let pickItem =$(this).siblings(".item-name").text();//クリックされた兄弟要素のitem-nameを取得する。                
+                let totalItem=JSON.parse(localStorage.getItem('totalItem')) || [];
+                totalItem.push(pickItem);
+                localStorage.setItem('totalItem',JSON.stringify(totalItem));
+                let price = $(this).data("price");
+                totalprice += price;
+                localStorage.setItem('totalprice', totalprice);
+                const index = $(this).data("index");
+                const countDisplay = $(this).siblings(".click-count");
+                let currentCount = parseInt(countDisplay.text().replace("商品個数: ", ""));
+                currentCount++;
+                countDisplay.text("商品個数: " + currentCount);
+                $("#cart").addClass("keyframe6");
+                setTimeout(function(){
+                    $("#cart").removeClass("keyframe6");
+                },1000)
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+.header {
+    text-align: center;
+}
+.totalItem{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 100px;
+    padding-bottom: 20px;
+}
+.totalItem p {
+    text-align: center;
+    margin: 0 auto;
+    width: 150px;
+    border: 1px solid black;
+    border-radius: 100px;
+    margin-top: 20px;
+}
+
+.totalPrice {
+    text-align: center;
+    margin: 0 auto;
+    width: 230px;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-right: 5px;
+    border-radius: 100px;
+}
+
+.buy {
+    text-align: center;
+    margin: 0 auto;
+    width: 130px;
+    border: 1px solid black;
+    background-color: skyblue;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 100px;
+}
+
+.buy:hover {
+    background-color: aqua;
+    transform: translateY(-5px);
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cart.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 class="header">カート内</h1>
+    <div class="totalItem"></div>
+    <div class="totalPrice"></div>
+    <script>
+        $(document).ready(function () {
+            let totalItem = JSON.parse(localStorage.getItem('totalItem')) || [];
+            totalItem.forEach(function (item) {
+                $(".totalItem").append('<p>' + item + '</p>');
+            });
+            let totalPrice = localStorage.getItem('totalprice')
+            $(".totalPrice").append('<p>合計金額：'+totalPrice+'円</p>');
+            $(".totalPrice").append('<button class="buy">購入'+'</button>');
+        })
+
+        $(document).on("click",".buy",function(){
+            let totalPrice=localStorage.getItem('totalprice');
+            if(confirm("商品を購入しますか？\n合計金額:"+totalPrice+"円")){
+                alert("購入が確定しました。楽しみにお待ちください！");
+                window.location.href="index.html";
+                localStorage.removeItem('totalprice');
+                localStorage.removeItem('totalItem');
+            }else {
+                alert("購入がキャンセルされました。またのご利用お待ちしております。");
+            }
+        })
+    </script>
+</body>
+
+</html>
